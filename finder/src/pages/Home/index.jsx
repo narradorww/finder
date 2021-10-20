@@ -5,11 +5,13 @@ import Slider from 'react-slick'
 import logo from '../../assets/logo.svg'
 import restaurante from '../../assets/restaurante-fake.png'
 import MaterialIcon from '@material/react-material-icon'
-import {Card} from './../../components'
+import {Card, RestaurantCard, Modal} from './../../components'
 
 
 const Home =()=> {
     const [inputValue, setInputValue] = useState('')
+    const [modalOpened, setModalOpened] = useState(false);
+
     const settings = {
         dots: false,
         infinite: true,
@@ -47,10 +49,13 @@ const Home =()=> {
             <Card photo={restaurante} title="Burgue"/>
             <Card photo={restaurante} title="Burgue"/>
         </Carousel>
+        <button onClick={()=>setModalOpened(true)}>Abrir Modal</button>
         
         </Search>
+        <RestaurantCard/>
     </Container>
     <Map/>
+    <Modal open={modalOpened} onClose={()=>setModalOpened(!modalOpened)} />
     </Wrapper>
     )
     
