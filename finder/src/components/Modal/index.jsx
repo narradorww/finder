@@ -1,8 +1,17 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import PortalModal from '../Modal/Portal'
 import { Overlay, Dialog } from './style'
 
 const Modal =({children, open,  onClose}) => {
+    useEffect(() => {
+        function onEsc(e){
+            if(e.keyCode === 27) onClose();
+        }
+        window.addEventListener('keydown',onEsc);
+        return ()=>{
+            window.removeEventListener('keydown', onEsc)
+        }
+    }, [onClose]);
     if(!open) return null;
 
     function onOverlayClick(){
