@@ -34,7 +34,7 @@ export const Title = styled.span`
 export const Adress = styled.span`
     font-family: ${(props) => props.theme.fonts.regular};
     color: ${(props) => props.theme.colors.text};
-    font-size: 24px;
+    font-size: 16px;
     line-height: 16px;
     margin-bottom: 10px;
     margin-top: 10px;

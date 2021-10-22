@@ -4,22 +4,22 @@ import ReactStars from "react-rating-stars-component";
 import restaurante from '../../assets/restaurante-fake.png'
 
 
-const RestaurantCard =()=>{
+const RestaurantCard =({restaurant})=>{
     return (
 
         <Restaurant>
             <RestaurantInfo>
-                <Title>Nome do Restaurante</Title>
+                <Title>{restaurant.name}</Title>
                 <ReactStars
                         count={5}
                         isHalf
-                        value={4}
+                        value={restaurant.rating}
                         edit={false}
                         activeColor="#e7711c"
                     />
-                <Adress>Rua lala, numero 2024</Adress>
+                <Adress>{restaurant.vicinity|| restaurant.formatted_address}</Adress>
             </RestaurantInfo>
-            <RestaurantePhoto src={restaurante} alt="restaurante fake"/>
+            <RestaurantePhoto src={restaurant.photos ? restaurant.photos[0].getUrl() : restaurante} alt="Foto do Restaurante"/>
         
         </Restaurant>
     )
