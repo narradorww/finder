@@ -1,20 +1,19 @@
 import React, {useState} from 'react'
 import { useSelector } from 'react-redux'
-import {CarouselTitles, Container, Logo, Search, Wrapper, Carousel} from './style'
 import TextField, {Input} from '@material/react-text-field'
-
+import MaterialIcon from '@material/react-material-icon'
 import logo from '../../assets/logo.svg'
 import restaurante from '../../assets/restaurante-fake.png'
-import MaterialIcon from '@material/react-material-icon'
-import {Card, RestaurantCard, Modal, Map} from './../../components'
-import {setRestaurants} from '../../redux/modules/restaurants'
+import {Card, RestaurantCard, Modal, Map, Loader, Skeleton} from './../../components'
 
+import {CarouselTitles, Container, Logo, Search, Wrapper, Carousel, ModalTitle} from './style'
 
 const Home =()=> {
     const [inputValue, setInputValue] = useState('')
     const [modalOpened, setModalOpened] = useState(false);
     const [query, setQuery] = useState(null)
-    const { restaurants } = useSelector((state)=> state.restaurants)
+    const [placeId, setPlaceId] = useState(null)
+    const { restaurants, restaurantSelected } = useSelector((state) => state.restaurants);
 
     const settings = {
         dots: false,
@@ -31,6 +30,11 @@ const Home =()=> {
               setQuery(inputValue)
           }
 
+      }
+
+      function handleOpenModal(placeId){
+          setPlaceId(placeId);
+          setModalOpened(true);
       }
 
     return(
@@ -50,27 +54,40 @@ const Home =()=> {
            onChange={(e) => setInputValue(e.target.value)}
            onKeyPress={handleKeyPress} />
         </TextField>
-        <CarouselTitles>Na sua Região </CarouselTitles>
-        <Carousel {...settings}>
-           {restaurants.map((restaurant)=> ( 
-           <Card 
-           key={restaurant.place_id}
-           photo={restaurant.photos ? restaurant.photos[0].getUrl() : restaurante}
-           alt="Foto do Restaurante" 
-           title={restaurant.name}
+
+        {restaurants.length > 0 ? (
+            <>
+            <CarouselTitles>Na sua Região </CarouselTitles>
+            <Carousel {...settings}>
+            {restaurants.map((restaurant)=> ( 
+            <Card 
+            key={restaurant.place_id}
+            photo={restaurant.photos ? restaurant.photos[0].getUrl() : restaurante}
+            alt="Foto do Restaurante" 
+            title={restaurant.name}
            />))
            }
         </Carousel>
+            </>
+        ): ( <Loader/> )}
+        
         
         
         </Search>
         {restaurants.map((restaurant)=>(
-            <RestaurantCard restaurant={restaurant}/>
+            <RestaurantCard  onClick={()=> handleOpenModal(restaurant.place_id)}
+            restaurant={restaurant}/>
         ))}
         
     </Container>
-    <Map query={query}/>
-    <Modal open={modalOpened} onClose={()=>setModalOpened(!modalOpened)} />
+    <Map query={query} placeId={placeId}/>
+
+
+        <Modal open={modalOpened} onClose={()=>setModalOpened(!modalOpened)} >
+            <ModalTitle>{restaurantSelected?.name}</ModalTitle>
+        </Modal>
+                
+    
     </Wrapper>
     )
     
