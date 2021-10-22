@@ -84,7 +84,19 @@ const Home =()=> {
 
 
         <Modal open={modalOpened} onClose={()=>setModalOpened(!modalOpened)} >
-            <ModalTitle>{restaurantSelected?.name}</ModalTitle>
+            { restaurantSelected ? (
+                <>
+                <ModalTitle>{restaurantSelected?.name}</ModalTitle>
+                </>
+            ):(
+                <>
+                <Skeleton width='10px' height='10px' />
+                <Skeleton width='10px' height='10px' />
+                <Skeleton width='10px' height='10px' />
+                <Skeleton width='10px' height='10px' />
+                </>
+            )}
+            
         </Modal>
                 
     

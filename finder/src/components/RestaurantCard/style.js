@@ -41,6 +41,7 @@ export const Adress = styled.span`
 `;
 
 export const RestaurantePhoto = styled.img`
+    display: ${(props) => (props.imageLoaded ? 'block' : 'none')}
     width: 100px;
     height: 100px;
     border-radius: 6px;
